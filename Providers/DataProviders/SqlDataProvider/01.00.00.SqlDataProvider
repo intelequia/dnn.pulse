@@ -1,0 +1,61 @@
+﻿IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE LIKE 'PROCEDURE' AND ROUTINE_NAME LIKE 'int_GetDNNPulse')
+BEGIN
+    DROP PROCEDURE int_GetDNNPulse;
+END
+GO
+
+CREATE PROCEDURE [dbo].[int_GetDNNPulse]
+AS
+BEGIN
+
+    DECLARE @DNNVersion TABLE
+    (
+        DNNVersion VARCHAR(50)
+    );
+
+    DECLARE @PortalAliases TABLE
+    (
+        HTTPALIAS VARCHAR(100)
+    );
+
+    DECLARE @ModulesVersions TABLE
+    (
+        ModuleName Varchar(100),
+        ModuleVersion VARCHAR(100)
+    );
+
+    INSERT INTO @DNNVersion (DNNVersion)
+    SELECT TOP 1 CONCAT(major, '.' , minor, '.' ,build) 
+    FROM Version
+    ORDER BY VersionId DESC;
+
+    INSERT INTO @PortalAliases (HTTPALIAS)
+    SELECT HTTPAlias
+    FROM PortalAlias
+    ORDER BY HTTPAlias ASC;
+
+    INSERT INTO @ModulesVersions (ModuleName, ModuleVersion)
+    SELECT ModuleName, Version
+    FROM DesktopModules
+    ORDER BY ModuleName ASC, Version ASC;
+
+    SELECT *
+    FROM (
+        SELECT 'DNNVersion' AS Type, DNNVersion as Name
+        FROM @DNNVersion
+
+        UNION ALL
+
+        SELECT 'PortalAlias' as Type, HTTPALIAS as Name
+        FROM @PortalAliases
+
+        UNION ALL
+        
+        SELECT 'Modules' as Type, CONCAT(ModuleName, ' - ', ModuleVersion) as Name
+        FROM @ModulesVersions
+    ) AS DNNPulse
+
+END
+GO
+
+

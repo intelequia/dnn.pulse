@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="windows-1252"?>
+
+<!-- WARNING, WARNING, WARNING -->
+<!-- REMEMBER THAT IF YOU MODIFY THE TARGETS FILE YOU NEED TO CLOSE/OPEN THE PROJECT FOR THE CHANGES TO TAKE EFFECT -->
+
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="MSBuild.Community.Tasks.Targets" />
+  <PropertyGroup>
+    <BuildScriptsPath>$(MSBuildProjectDirectory)\BuildScripts</BuildScriptsPath>
+    <WebsitePath>C:\Website\intelequia.dnndev.me</WebsitePath>
+    <WebsiteBinPath>$(WebsitePath)\bin</WebsiteBinPath>
+    <Extension>zip</Extension>
+    <DNNFileName>DNNPulse</DNNFileName>
+    <PackageName>DNNPulse</PackageName>
+    <ModuleFolderPath>$(WebsitePath)\DesktopModules\$(DNNFileName)\</ModuleFolderPath>
+  </PropertyGroup>
+
+
+  <!--===========================================================
+      Prepare required assemblies
+      ===========================================================
+      Include third party assemblies.
+  -->
+  <Target Name="ModuleRequiredAssemblies">
+    <Message Text="Prepare required assemblies..." Importance="high"></Message>
+
+    <!--<CreateItem Include="$(MSBuildDnnBinPath)\Newtonsoft.Json.dll">
+      <Output TaskParameter="Include" ItemName="RequiredAssemblies" />
+    </CreateItem>-->
+  </Target>
+
+  <!--===========================================================
+      Prepare module resource files
+      ===========================================================
+      Used by "CopyModule" and "PackageModule" targets
+  -->
+  <Target Name="ModuleResources">
+    <Message  Text="Prepare module resources..." Importance="high"></Message>
+
+    <!-- Prepare module files -->
+    <ItemGroup>
+      <ModuleInclude Include="**\*.ascx" Exclude="packages\**;styleguides\**" />
+      <ModuleInclude Include="**\*.asmx" Exclude="packages\**;styleguides\**" />
+      <ModuleInclude Include="**\*.aspx" Exclude="packages\**;styleguides\**" />
+      <ModuleInclude Include="**\*.html" Exclude="packages\**;styleguides\**" />
+      <ModuleInclude Include="**\*.htm" Exclude="packages\**;styleguides\**" />
+      <ModuleInclude Include="**\*.resx" Exclude="packages\**;styleguides\**" />
+      <ModuleInclude Include="**\*.js" Exclude="packages\**;styleguides\**" />
+      <ModuleInclude Include="**\*.css" Exclude="packages\**;styleguides\**" />
+      <ModuleInclude Include="**\*.txt"  Exclude="**\obj\**;**\_ReSharper*\**;packages\**;**\.git\**;styleguides\**" />
+      <ModuleInclude Include="**\fonts\**" Exclude="packages\**;styleguides\**" />
+      <ModuleInclude Include="**\images\**" Exclude="packages\**;styleguides\**" />
+      <ModuleInclude Include="**\img\**" Exclude="packages\**;styleguides\**" />
+      <ModuleInclude Include="**\Templates\**" Exclude="packages\**;styleguides\**" />
+    </ItemGroup>
+  </Target>
+
+
+
+
+  <!--===========================================================
+      Copy the module into a local DNN instance after build [DEBUG]
+      ===========================================================
+      To change the destination folder go to Module.build.
+  -->
+  <Target Name="CopyModule"  Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <XmlRead Prefix="n"
+      Namespace="http://schemas.microsoft.com/developer/msbuild/2003"
+      XPath="dotnetnuke/packages/package[1]/@version"
+      XmlFileName="$(DNNFileName).dnn">
+      <Output TaskParameter="Value" PropertyName="Version" />
+    </XmlRead>
+    <Message Text="Copy module (v$(Version)) to local folder..." Importance="high"></Message>
+
+    <!-- Copy module files -->
+    <Copy SourceFiles="@(ModuleInclude)" DestinationFolder="$(ModuleFolderPath)\%(RecursiveDir)" />
+
+  </Target>
+
+
+
+
+  <!--===========================================================
+      Create install and source packages after build [RELEASE]
+      ===========================================================
+      Packages will be created in the Install folder.
+  -->
+  <Target Name="PackageModule"  Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <XmlRead Prefix="n"
+      Namespace="http://schemas.microsoft.com/developer/msbuild/2003"
+      XPath="dotnetnuke/packages/package[1]/@version"
+      XmlFileName="$(DNNFileName).dnn">
+      <Output TaskParameter="Value" PropertyName="Version" />
+    </XmlRead>
+    <Message Text="Prepare module (v$(Version)) package..." Importance="high"></Message>
+
+    <!-- We need some files into the root of the package in order to properly install in DNN-->
+    <CreateItem Include="$(DNNFileName).dnn">
+      <Output TaskParameter="Include" ItemName="PackageManifestFiles" />
+    </CreateItem>
+
+    <CreateItem Include="**\License.txt">
+      <Output TaskParameter="Include" ItemName="PackageTxtFiles" />
+    </CreateItem>
+
+    <CreateItem Include="**\ReleaseNotes.txt">
+      <Output TaskParameter="Include" ItemName="PackageTxtFiles" />
+    </CreateItem>
+
+    <CreateItem Include="**\*.sqldataprovider">
+      <Output TaskParameter="Include" ItemName="SqlDataProviderFiles" />
+    </CreateItem>
+
+    <!-- Copy above files into the root folder of the package -->
+    <Copy SourceFiles="@(PackageManifestFiles)" DestinationFolder="$(MSBuildProjectDirectory)\InstallPackage" />
+    <Copy SourceFiles="@(PackageTxtFiles)" DestinationFolder="$(MSBuildProjectDirectory)\InstallPackage" />
+    <Copy SourceFiles="@(SqlDataProviderFiles)" DestinationFolder="$(MSBuildProjectDirectory)\InstallPackage\%(RecursiveDir)" />
+
+    <!-- Copy the module assembly into the root folder of the package -->
+    <Copy SourceFiles="$(MSBuildDnnBinPath)\$(AssemblyName).dll" DestinationFolder="$(MSBuildProjectDirectory)\InstallPackage\bin"/>
+
+    <!-- Copy required assemblies -->
+    <Copy SourceFiles="@(RequiredAssemblies)" DestinationFolder="$(MSBuildProjectDirectory)\InstallPackage\bin" />
+
+    <!-- Copy module resources into the ResourcesZip folder -->
+    <Copy SourceFiles="@(ModuleInclude)" DestinationFolder="$(MSBuildProjectDirectory)\ResourcesZip\%(RecursiveDir)" />
+
+    <!-- Prepare Resources.zip content -->
+    <CreateItem Include="$(MSBuildProjectDirectory)\ResourcesZip\**\*.*">
+      <Output TaskParameter="Include" ItemName="ResourcesZipContent" />
+    </CreateItem>
+
+    <!-- Create Resources.zip file -->
+    <Zip Files="@(ResourcesZipContent)" WorkingDirectory="$(MSBuildProjectDirectory)\ResourcesZip" ZipFileName="InstallPackage\Resources.$(Extension)" />
+
+    <!-- Remove ResourcesZip folder -->
+    <RemoveDir Directories ="$(MSBuildProjectDirectory)\ResourcesZip" />
+
+    <!-- Prepare install package content -->
+    <CreateItem Include="$(MSBuildProjectDirectory)\InstallPackage\**\*.*">
+      <Output TaskParameter="Include" ItemName="OutputContent" />
+    </CreateItem>
+
+    <!-- Create the install package -->
+    <Zip Files="@(OutputContent)" WorkingDirectory="$(MSBuildProjectDirectory)\InstallPackage" ZipFileName="$(SolutionDir)\releases\$(PackageName)_$(Version)_Install.$(Extension)" />
+
+    <!-- Remove InstallPackage folder -->
+    <RemoveDir Directories ="$(MSBuildProjectDirectory)\InstallPackage" />
+
+    <!-- Create source package
+        =======================-->
+
+    <!-- Prepare source package content -->
+    <ItemGroup>
+      <SourceInclude Include="**\*.*"
+
+        Exclude="**\.vs\**;
+        **\obj\**;
+        **\packages\**;
+        **\_ReSharper*\**;
+        **\bin\**;
+        **\.git\**;
+        **\Install\**;
+        **\*.user;
+        **\*.user;
+        **\*prepros*.*;
+        **\*.css.map;" />
+    </ItemGroup>
+
+    <!-- Create source package -->
+    <Zip Files="@(SourceInclude)" WorkingDirectory="$(MSBuildProjectDirectory)" ZipFileName="$(SolutionDir)\releases\$(PackageName)_$(Version)_Source.$(Extension)" />
+  </Target>
+
+
+
+  <!--===========================================================
+      Copy assemblies to local bin folder (*.dnndev.me\bin)
+      ===========================================================
+      This target copy all assemblies into bin folder in a 
+      local DNN instance.
+  -->
+  <Target Name="CopyBin" Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <Message Text="Copy module assemblies into local folder..." Importance="high"></Message>
+
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\bin\$(AssemblyName).dll" DestinationFolder="$(WebsiteBinPath)" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\bin\$(AssemblyName).pdb" DestinationFolder="$(WebsiteBinPath)" />
+  </Target>
+
+
+
+  <!--===========================================================
+      The One Target
+      ===========================================================
+      to rule them all...
+  -->
+  <Target Name="PackageAndDeploy">
+    <CallTarget Targets="ModuleResources" />
+    <CallTarget Targets="ModuleRequiredAssemblies" />
+    <CallTarget Targets="CopyModule" />
+    <CallTarget Targets="PackageModule" />
+    <CallTarget Targets="CopyBin" />
+  </Target>
+
+</Project>

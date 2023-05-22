@@ -1,0 +1,16 @@
+﻿﻿<h3>DNN Pulse module</h3>
+<p class="Contributor">
+	Intelequia <br />
+	<a href="mailto:support@intelequia.com">support@intelequia.com</a><br />
+	<a href=https://intelequia.com>https://intelequia.com</a><br />
+	A module to send the DNN Version, Portal Aliases and all modules installed on your DNN website to Azure Application Insights.
+</p>
+<hr/>
+<div class="License">
+	<h3>About the DNN Pulse module</h3>
+	<p class="Owner">
+		<b>Version 1.0.0</b>
+	</p>
+	<p>Initial realease.<br /><br /></p>	
+
+</div>
