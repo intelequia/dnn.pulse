@@ -55,6 +55,23 @@
             </attributes>
           </eventMessage>
         </component>
+		  
+		  <component type="Script">
+			  <scripts>
+				  <basePath>DesktopModules\dnnsimplearticle</basePath>
+				  <script type="Install">
+					  <path>Providers\DataProviders\SqlDataProvider</path>
+					  <name>01.00.00.SqlDataProvider</name>
+					  <version>01.00.00</version>
+				  </script>
+				  <script type="UnInstall">
+					  <path>Providers\DataProviders\SqlDataProvider</path>
+					  <name>Uninstall.SqlDataProvider</name>
+					  <version>01.00.00</version>
+				  </script>
+			  </scripts>
+		  </component>
+		  
         <component type="Assembly">
           <assemblies>
             <assembly>
