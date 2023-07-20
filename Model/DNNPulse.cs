@@ -15,6 +15,8 @@ namespace Intelequia.Modules.DNNPulse.Model
         public List<String> PortalAlias { get; set; }
         public List<String> ModulesName { get; set; }
         public List<String> ModulesVersion { get; set; }
+        public string DatabaseSize { get; set; }
+        public string DatabaseTier { get; set; }
 
     }
 }

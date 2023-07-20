@@ -20,10 +20,19 @@ BEGIN
 
     DECLARE @ModulesVersions TABLE
     (
-        ModuleName Varchar(100),
+        ModuleName VARCHAR(100),
         ModuleVersion VARCHAR(100)
     );
 
+	DECLARE @DatabaseSize TABLE
+	(
+		Size VARCHAR(100)
+	);
+
+	DECLARE @DatabaseTier TABLE
+	(
+		Tier VARCHAR(100)
+	);
     INSERT INTO @DNNVersion (DNNVersion)
     SELECT TOP 1 CONCAT(major, '.' , minor, '.' ,build) 
     FROM Version
@@ -39,20 +48,41 @@ BEGIN
     FROM DesktopModules
     ORDER BY ModuleName ASC, Version ASC;
 
+	INSERT INTO @DatabaseSize (Size)
+	SELECT SUM(size/128.0) AS DatabaseDataSpaceAllocatedInMB
+	FROM sys.database_files
+	GROUP BY type_desc
+	HAVING type_desc = 'ROWS'
+
+	INSERT INTO @DatabaseTier (Tier)
+	SELECT service_objective
+    FROM sys.database_service_objectives
+    WHERE database_id = DB_ID();
+
     SELECT *
     FROM (
-        SELECT 'DNNVersion' AS Type, DNNVersion as Name
+        SELECT 'DNNVersion' AS TYPE, DNNVersion AS NAME
         FROM @DNNVersion
 
         UNION ALL
 
-        SELECT 'PortalAlias' as Type, HTTPALIAS as Name
+        SELECT 'PortalAlias' AS TYPE, HTTPALIAS AS NAME
         FROM @PortalAliases
 
         UNION ALL
         
-        SELECT 'Modules' as Type, CONCAT(ModuleName, ' - ', ModuleVersion) as Name
+        SELECT 'Modules' AS TYPE, CONCAT(ModuleName, ' - ', ModuleVersion) AS NAME
         FROM @ModulesVersions
+
+		UNION ALL
+
+		SELECT 'DatabaseSize' AS TYPE, Size AS NAME
+		FROM @DatabaseSize
+
+		UNION ALL
+
+		SELECT 'DatabaseTier' AS TYPE, Tier AS NAME
+		FROM @DatabaseTier
     ) AS DNNPulse
 
 END

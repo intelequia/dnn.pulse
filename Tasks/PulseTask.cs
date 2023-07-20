@@ -5,6 +5,7 @@ using Intelequia.Modules.DNNPulse.Model;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,7 +82,10 @@ namespace Intelequia.Modules.DNNPulse.Tasks
             Properties jsonProperties = new Properties
             {
                 DNNVersion = dnnPulse.DNNVersion,
+                databaseSize = dnnPulse.DatabaseSize,
+                databaseType = dnnPulse.DatabaseTier,
                 portalAliases = dnnPulse.PortalAlias.ToArray(),
+                id = dnnPulse.PortalAlias.FirstOrDefault()
             };
             for (int cont = 0; cont < dnnPulse.ModulesName.Count; cont++)
             {

@@ -11,6 +11,14 @@
 	<p class="Owner">
 		<b>Version 1.0.0</b>
 	</p>
-	<p>Initial realease.<br /><br /></p>	
-
+	<p>Initial realease.<br /><br /></p>
+	<p class="Owner">
+		<b>Version 1.1.0</b>
+	</p>
+	<p>Added new features:
+		<ul>
+			<li>Database Size information added.</li>
+			<li>Database Tier information added.</li>
+		</ul>
+	<br /><br /></p>
 </div>

@@ -88,7 +88,21 @@ namespace Intelequia.Modules.DNNPulse.Data
                         }
                         else
                         {
-                            query.DNNVersion = name;
+                            if (type == "DNNVersion")
+                            {
+                                query.DNNVersion = name;
+                            }
+                            else
+                            {
+                                if (type == "DatabaseSize")
+                                {
+                                    query.DatabaseSize = name;
+                                }
+                                else
+                                {
+                                    query.DatabaseTier = name;
+                                }
+                            }
                         }
                     }
                 }

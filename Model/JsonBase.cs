@@ -26,6 +26,9 @@
         public string DNNVersion { get; set; }
         public string modules { get; set; }
         public string[] portalAliases { get; set; }
+        public string databaseSize { get; set; }
+        public string databaseType { get; set; }
+        public string id { get; set; }
     }
 
     public class Module
