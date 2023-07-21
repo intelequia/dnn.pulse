@@ -61,17 +61,6 @@ Example:
 ```
 4. Save the file.
 
-<a name="programmedTask-config"></a>
-#### Programmed Task configuration
-
-1. In DNN go to Settings > Scheduler > Scheduler.
-2. Add a new task.
-3. Fill the following required fields:
-* **Friendly Name**: The Task name, write one you want (i.e. DNN Pulse).
-* **Full Class Name and Assembly**: "Intelequia.Modules.DNNPulse.Tasks.PulseTask, DNNPulse".
-4. Choose the parameters you want for the programmed task (Once every day, week...).
-5. Enable the task.
-
 <a name="verification"></a>
 ## Verification
 
