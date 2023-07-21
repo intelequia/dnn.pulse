@@ -41,7 +41,7 @@ BEGIN
     INSERT INTO @PortalAliases (HTTPALIAS)
     SELECT HTTPAlias
     FROM PortalAlias
-    ORDER BY HTTPAlias ASC;
+    ORDER BY IsPrimary DESC, HTTPAlias;
 
     INSERT INTO @ModulesVersions (ModuleName, ModuleVersion)
     SELECT ModuleName, Version

@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DNNPulse" type="Module" version="01.02.00">
+    <package name="DNNPulse" type="Module" version="01.03.00">
       <friendlyName>DNNPulse</friendlyName>
       <description>intelequia.com DNNPulse module</description>
       <iconFile>~/Images/icon_extensions_32px.png</iconFile>
@@ -51,7 +51,7 @@
             <attributes>
               <businessControllerClass>Intelequia.Modules.DNNPulse.Components.FeatureController, DNNPulse</businessControllerClass>
               <desktopModuleID>[DESKTOPMODULEID]</desktopModuleID>
-              <upgradeVersionsList>01.02.00</upgradeVersionsList>
+              <upgradeVersionsList>01.03.00</upgradeVersionsList>
             </attributes>
           </eventMessage>
         </component>

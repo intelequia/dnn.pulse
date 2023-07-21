@@ -26,4 +26,10 @@
 			- Avaliable to use even if it's not Azure SQL Server.<br /
 			- Programmed task creates automatically.
 	<br /><br /></p>
+			<p class="Owner">
+		<b>Version 1.3.0</b>
+	</p>
+	<p>Added new features:
+			- The portal Alisases are now ordered by if it's primary.
+	<br /><br /></p>
 </div>
