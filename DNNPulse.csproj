@@ -183,6 +183,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\DNNPulseManager.cs" />
+    <Compile Include="Components\FeatureController.cs" />
     <Compile Include="Data\Provider\DataProvider.cs" />
     <Compile Include="Data\Provider\SqlDataProvider.cs" />
     <Compile Include="DNNPulseModuleBase.cs">

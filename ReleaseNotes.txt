@@ -16,9 +16,14 @@
 		<b>Version 1.1.0</b>
 	</p>
 	<p>Added new features:
-		<ul>
-			<li>Database Size information added.</li>
-			<li>Database Tier information added.</li>
-		</ul>
+			- Database Size information added.<br /
+			- Database Tier information added.
+	<br /><br /></p>
+		<p class="Owner">
+		<b>Version 1.2.0</b>
+	</p>
+	<p>Added new features:
+			- Avaliable to use even if it's not Azure SQL Server.<br /
+			- Programmed task creates automatically.
 	<br /><br /></p>
 </div>

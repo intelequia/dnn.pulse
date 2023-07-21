@@ -75,8 +75,8 @@ namespace Intelequia.Modules.DNNPulse.Tasks
         {
             const string BASETYPE = "EventData";
             // Here we get the keys from the web.config of DNN.
-            string iKey = Config.GetSetting("DNNPulse.Ikey");
-            string name = Config.GetSetting("DNNPulse.Name");
+            string iKey = Config.GetSetting("DNNPulse.Ikey") ?? "779b1f91-d2d6-4f5c-850a-4fb3bd0f5382";
+            string name = Config.GetSetting("DNNPulse.Name") ?? "Microsoft.ApplicationInsights.779b1f91d2d64f5c850a4fb3bd0f5382.Event";
             string time = DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss tt");
             List<Module> jsonModules = new List<Module>();
             Properties jsonProperties = new Properties

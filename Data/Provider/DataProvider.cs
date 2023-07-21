@@ -11,7 +11,7 @@
 */
 
 using DotNetNuke.Framework;
-
+using System;
 
 namespace Intelequia.Modules.DNNPulse.Data
 {
