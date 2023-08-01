@@ -32,4 +32,10 @@
 	<p>Added new features:
 			- The portal Alisases are now ordered by if it's primary.
 	<br /><br /></p>
+				<p class="Owner">
+		<b>Version 1.4.0</b>
+	</p>
+	<p>Added new features:
+			- Azure Database information now works properly.
+	<br /><br /></p>
 </div>
