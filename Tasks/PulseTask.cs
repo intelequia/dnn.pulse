@@ -1,5 +1,7 @@
 ﻿using DotNetNuke.Common.Utilities;
+using DotNetNuke.Entities.Controllers;
 using DotNetNuke.Services.Scheduling;
+using DotNetNuke.Abstractions.Application;
 using Intelequia.Modules.DNNPulse.Components;
 using Intelequia.Modules.DNNPulse.Model;
 using Newtonsoft.Json;
@@ -15,6 +17,7 @@ namespace Intelequia.Modules.DNNPulse.Tasks
 {
     public class PulseTask : SchedulerClient
     {
+
         public PulseTask(ScheduleHistoryItem item) : base()
         {
             this.ScheduleHistoryItem = item;
@@ -78,6 +81,13 @@ namespace Intelequia.Modules.DNNPulse.Tasks
             string iKey = Config.GetSetting("DNNPulse.Ikey") ?? "779b1f91-d2d6-4f5c-850a-4fb3bd0f5382";
             string name = Config.GetSetting("DNNPulse.Name") ?? "Microsoft.ApplicationInsights.779b1f91d2d64f5c850a4fb3bd0f5382.Event";
             string time = DateTime.UtcNow.ToString("MM/dd/yyyy hh:mm:ss tt");
+            string dnnPulseGuid = HostController.Instance.GetString("DNNPulseGUID");
+            if (dnnPulseGuid == null || dnnPulseGuid == "")
+            {
+                HostController.Instance.Update("DNNPulseGUID", Guid.NewGuid().ToString(), true);
+                dnnPulseGuid = HostController.Instance.GetString("DNNPulseGUID");
+            }
+
             List<Module> jsonModules = new List<Module>();
             Properties jsonProperties = new Properties
             {
@@ -85,7 +95,8 @@ namespace Intelequia.Modules.DNNPulse.Tasks
                 databaseSize = dnnPulse.DatabaseSize,
                 databaseType = dnnPulse.DatabaseTier,
                 portalAliases = dnnPulse.PortalAlias.ToArray(),
-                id = dnnPulse.PortalAlias.FirstOrDefault()
+                dnnPulseGuid = dnnPulseGuid,
+                firstAlias = dnnPulse.PortalAlias.FirstOrDefault(),
             };
             for (int cont = 0; cont < dnnPulse.ModulesName.Count; cont++)
             {

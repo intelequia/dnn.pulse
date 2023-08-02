@@ -38,4 +38,10 @@
 	<p>Added new features:
 			- Azure Database information now works properly.
 	<br /><br /></p>
+					<p class="Owner">
+		<b>Version 1.5.0</b>
+	</p>
+	<p>Added new features:
+			- Now creates a GUID that can be used as the ID.
+	<br /><br /></p>
 </div>

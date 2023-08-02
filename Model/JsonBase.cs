@@ -28,7 +28,8 @@
         public string[] portalAliases { get; set; }
         public string databaseSize { get; set; }
         public string databaseType { get; set; }
-        public string id { get; set; }
+        public string dnnPulseGuid { get; set; }
+        public string firstAlias { get; set; }
     }
 
     public class Module
