@@ -10,7 +10,7 @@ BEGIN
 
     DECLARE @DNNVersion TABLE
     (
-        DNNVersion VARCHAR(50)
+        DNNVersion VARCHAR(100)
     );
 
     DECLARE @PortalAliases TABLE

@@ -44,4 +44,10 @@
 	<p>Added new features:
 			- Now creates a GUID that can be used as the ID.
 	<br /><br /></p>
+						<p class="Owner">
+		<b>Version 1.6.0</b>
+	</p>
+	<p>Added new features:
+			- Fix: fixed installation when an older version was installed.
+	<br /><br /></p>
 </div>

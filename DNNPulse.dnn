@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="DNNPulse" type="Module" version="01.05.00">
+    <package name="DNNPulse" type="Module" version="01.06.00">
       <friendlyName>DNNPulse</friendlyName>
       <description>intelequia.com DNNPulse module</description>
       <iconFile>~/Images/icon_extensions_32px.png</iconFile>
@@ -51,7 +51,7 @@
             <attributes>
               <businessControllerClass>Intelequia.Modules.DNNPulse.Components.FeatureController, DNNPulse</businessControllerClass>
               <desktopModuleID>[DESKTOPMODULEID]</desktopModuleID>
-              <upgradeVersionsList>01.05.00</upgradeVersionsList>
+              <upgradeVersionsList>01.06.00</upgradeVersionsList>
             </attributes>
           </eventMessage>
         </component>
@@ -61,13 +61,18 @@
 				  <basePath>DesktopModules\dnnsimplearticle</basePath>
 				  <script type="Install">
 					  <path>Providers\DataProviders\SqlDataProvider</path>
-					  <name>01.00.00.SqlDataProvider</name>
-					  <version>01.00.00</version>
+					  <name>01.01.00.SqlDataProvider</name>
+					  <version>01.01.00</version>
+				  </script>
+				  <script type="Install">
+					  <path>Providers\DataProviders\SqlDataProvider</path>
+					  <name>01.06.00.SqlDataProvider</name>
+					  <version>01.06.00</version>
 				  </script>
 				  <script type="UnInstall">
 					  <path>Providers\DataProviders\SqlDataProvider</path>
 					  <name>Uninstall.SqlDataProvider</name>
-					  <version>01.00.00</version>
+					  <version>01.06.00</version>
 				  </script>
 			  </scripts>
 		  </component>
