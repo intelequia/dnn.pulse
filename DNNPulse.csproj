@@ -226,6 +226,7 @@
   <ItemGroup>
     <Content Include="web.config" />
     <Content Include="Providers\DataProviders\SqlDataProvider\01.06.00.SqlDataProvider" />
+    <Content Include="Providers\DataProviders\SqlDataProvider\01.07.00.SqlDataProvider" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

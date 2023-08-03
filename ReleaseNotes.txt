@@ -50,4 +50,9 @@
 	<p>Added new features:
 			- Fix: fixed installation when an older version was installed.
 	<br /><br /></p>
+			<b>Version 1.6.0</b>
+	</p>
+	<p>Added new features:
+			- Fix: Now return the first portal Alias correctly.
+	<br /><br /></p>
 </div>
