@@ -44,7 +44,8 @@ BEGIN
             IsPrimary=1 and CultureCode IS NULL THEN 0 
             ELSE CASE WHEN IsPrimary=1 THEN 1 ELSE 2 END
             END
-    FROM PortalAlias;
+    FROM PortalAlias
+    WHERE PortalId = (SELECT MIN(PortalId) FROM Portals);
 
     INSERT INTO @ModulesVersions (ModuleName, ModuleVersion)
     SELECT ModuleName, Version
